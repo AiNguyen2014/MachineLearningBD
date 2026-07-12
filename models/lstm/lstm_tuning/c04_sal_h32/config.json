@@ -1,0 +1,21 @@
+{
+  "data": "/Users/khodo/Downloads/BDML_Paper/Data/processed/lstm_daily_multisource_2020_2023.csv",
+  "output_dir": "models/lstm_tuning/c04_sal_h32",
+  "lookback": 30,
+  "horizon": 1,
+  "train_end": "2021-12-31",
+  "val_end": "2022-12-31",
+  "target_col": "target_salinity_max",
+  "batch_size": 128,
+  "epochs": 60,
+  "patience": 8,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "hidden_size": 32,
+  "num_layers": 1,
+  "dropout": 0.1,
+  "station_embedding_dim": 8,
+  "grad_clip": 1.0,
+  "seed": 42,
+  "feature_set": "salinity"
+}

@@ -1,0 +1,15 @@
+metric,value
+daily_grid_rows,27434
+station_count,22
+start_date,2020-01-01
+end_date,2023-05-31
+salinity_max_observed_rows,10120
+salinity_qc_invalid_rows,1
+short_gap_salinity_filled_rows,3115
+era5_missing_stations_filled_from_nearest,
+era5_rows_with_any_missing,0
+era5_buffer_m_values,12000
+s2_source_month_count,41
+s2_missing_target_months,
+s2_month_available_rows,27434
+s2_month_missing_rows,0

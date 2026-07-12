@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="360" viewBox="0 0 920 360">
+<rect width="100%" height="100%" fill="white"/>
+<text x="54" y="28" font-family="Arial" font-size="18" font-weight="700">Monthly Mean Salinity Max</text>
+<line x1="54" y1="306" x2="866" y2="306" stroke="#888"/>
+<line x1="54" y1="54" x2="54" y2="306" stroke="#888"/>
+<text x="54" y="40" font-family="Arial" font-size="11">14.09</text>
+<text x="54" y="324" font-family="Arial" font-size="11">2.60</text>
+<polyline points="54.0,116.3 94.6,59.0 135.2,68.0 175.8,54.0 216.4,112.8 257.0,219.6 297.6,214.0 338.2,175.8 378.8,124.8 419.4,171.1 460.0,258.4 500.6,242.9 541.2,171.0 581.8,201.0 622.4,256.3 663.0,306.0 703.6,254.4 744.2,197.2 784.8,186.2 825.4,204.2 866.0,210.9" fill="none" stroke="#2f6f73" stroke-width="2.5"/>
+<circle cx="54.0" cy="116.3" r="3" fill="#2f6f73"/>
+<circle cx="94.6" cy="59.0" r="3" fill="#2f6f73"/>
+<circle cx="135.2" cy="68.0" r="3" fill="#2f6f73"/>
+<circle cx="175.8" cy="54.0" r="3" fill="#2f6f73"/>
+<circle cx="216.4" cy="112.8" r="3" fill="#2f6f73"/>
+<circle cx="257.0" cy="219.6" r="3" fill="#2f6f73"/>
+<circle cx="297.6" cy="214.0" r="3" fill="#2f6f73"/>
+<circle cx="338.2" cy="175.8" r="3" fill="#2f6f73"/>
+<circle cx="378.8" cy="124.8" r="3" fill="#2f6f73"/>
+<circle cx="419.4" cy="171.1" r="3" fill="#2f6f73"/>
+<circle cx="460.0" cy="258.4" r="3" fill="#2f6f73"/>
+<circle cx="500.6" cy="242.9" r="3" fill="#2f6f73"/>
+<circle cx="541.2" cy="171.0" r="3" fill="#2f6f73"/>
+<circle cx="581.8" cy="201.0" r="3" fill="#2f6f73"/>
+<circle cx="622.4" cy="256.3" r="3" fill="#2f6f73"/>
+<circle cx="663.0" cy="306.0" r="3" fill="#2f6f73"/>
+<circle cx="703.6" cy="254.4" r="3" fill="#2f6f73"/>
+<circle cx="744.2" cy="197.2" r="3" fill="#2f6f73"/>
+<circle cx="784.8" cy="186.2" r="3" fill="#2f6f73"/>
+<circle cx="825.4" cy="204.2" r="3" fill="#2f6f73"/>
+<circle cx="866.0" cy="210.9" r="3" fill="#2f6f73"/>
+<text x="54.0" y="344" text-anchor="middle" font-size="11">2020-01</text><text x="175.8" y="344" text-anchor="middle" font-size="11">2020-04</text><text x="297.6" y="344" text-anchor="middle" font-size="11">2021-01</text><text x="419.4" y="344" text-anchor="middle" font-size="11">2021-04</text><text x="500.6" y="344" text-anchor="middle" font-size="11">2022-01</text><text x="622.4" y="344" text-anchor="middle" font-size="11">2022-04</text><text x="744.2" y="344" text-anchor="middle" font-size="11">2023-02</text><text x="866.0" y="344" text-anchor="middle" font-size="11">2023-05</text>
+</svg>

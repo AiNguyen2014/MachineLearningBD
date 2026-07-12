@@ -1,0 +1,15 @@
+{
+  "name": "a01_salinity_l30",
+  "feature_set": "salinity",
+  "lookback": 30,
+  "hidden": 64,
+  "layers": 1,
+  "dropout": 0.1,
+  "best_epoch": 35,
+  "val_rmse": 1.3219305276870728,
+  "val_mae": 0.8450651168823242,
+  "val_r2": 0.954316685790193,
+  "test_rmse_diagnostic": 1.4227964878082275,
+  "elapsed_seconds": 21.64486026763916,
+  "n_features": 9
+}

@@ -1,0 +1,28 @@
+# macOS/system files
+.DS_Store
+**/.DS_Store
+
+# Python cache/runtime artifacts
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+.venv_lstm/
+venv/
+env/
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Temporary/work files
+tmp/
+*.tmp
+*.temp
+
+# Office lock files
+~$*
+.~*
+*.~*
