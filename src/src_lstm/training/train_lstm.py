@@ -43,9 +43,9 @@ except ImportError as exc:  # pragma: no cover - helpful runtime message
     ) from exc
 
 
-ROOT = Path(__file__).resolve().parent
-DEFAULT_DATA = ROOT / "Data/processed/lstm_daily_multisource_2020_2023.csv"
-DEFAULT_OUTPUT_DIR = ROOT / "models/lstm_daily"
+REPO_ROOT = Path(__file__).resolve().parents[3]
+DEFAULT_DATA = REPO_ROOT / "Data/lstm_processed/processed/lstm_daily_multisource_2020_2023.csv"
+DEFAULT_OUTPUT_DIR = REPO_ROOT / "models/lstm/lstm_daily"
 
 
 @dataclass

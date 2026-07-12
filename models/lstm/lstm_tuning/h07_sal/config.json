@@ -1,6 +1,6 @@
 {
-  "data": "/Users/khodo/Downloads/BDML_Paper/Data/processed/lstm_daily_multisource_2020_2023.csv",
-  "output_dir": "models/lstm_tuning/h07_sal",
+  "data": "/Users/khodo/Downloads/BDML_Paper/Data/lstm_processed/processed/lstm_daily_multisource_2020_2023.csv",
+  "output_dir": "models/lstm/lstm_tuning/h07_sal",
   "lookback": 30,
   "horizon": 7,
   "train_end": "2021-12-31",

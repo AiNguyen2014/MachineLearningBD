@@ -4,20 +4,22 @@ from __future__ import annotations
 
 import json
 import math
+import shutil
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
 
-ROOT = Path(__file__).resolve().parent
-TUNING = ROOT / "models/lstm_tuning"
+REPO_ROOT = Path(__file__).resolve().parents[3]
+TUNING = REPO_ROOT / "models/lstm/lstm_tuning"
+TARGET_HORIZON = 7
 FINAL_RUNS = [
-    TUNING / "c05_sal_h128",
-    TUNING / "c05_sal_h128_s07",
-    TUNING / "c05_sal_h128_s123",
+    TUNING / "h07_sal_s07",
+    TUNING / "h07_sal",
+    TUNING / "h07_sal_s123",
 ]
-OUT = ROOT / "models/lstm_final"
+OUT = REPO_ROOT / "models/lstm/lstm_final"
 
 
 def metrics(y_true: pd.Series, y_pred: pd.Series) -> dict[str, float | int]:
@@ -38,6 +40,8 @@ def collect_trials() -> pd.DataFrame:
         run_dir = metric_path.parent
         metric = json.loads(metric_path.read_text(encoding="utf-8"))
         config = json.loads((run_dir / "config.json").read_text(encoding="utf-8"))
+        if config["horizon"] != TARGET_HORIZON:
+            continue
         rows.append({
             "trial": run_dir.name,
             "feature_set": config["feature_set"],
@@ -77,6 +81,14 @@ def main() -> None:
 
     seeds = pd.DataFrame(seed_rows).sort_values("seed")
     seeds.to_csv(OUT / "final_architecture_seed_results.csv", index=False)
+    chosen = min(FINAL_RUNS, key=lambda run: json.loads((run / "metrics.json").read_text(encoding="utf-8"))["val"]["rmse"])
+    for source, target in [
+        ("best_model.pt", "best_model_selected_by_validation.pt"),
+        ("config.json", "selected_config.json"),
+        ("training_metadata.json", "selected_training_metadata.json"),
+        ("training_history.csv", "selected_training_history.csv"),
+    ]:
+        shutil.copy2(chosen / source, OUT / target)
     ensemble = prediction_frames[0]
     for frame in prediction_frames[1:]:
         ensemble = ensemble.merge(frame.drop(columns=["input_end", "y_true"]), on=["station_id", "target_date"], validate="one_to_one")
@@ -86,7 +98,7 @@ def main() -> None:
     ensemble.to_csv(OUT / "test_predictions_ensemble.csv", index=False)
 
     overall = pd.DataFrame([{"model": "LSTM ensemble (3 seeds)", **metrics(ensemble.y_true, ensemble.y_pred)}])
-    daily = pd.read_csv(ROOT / "Data/processed/lstm_daily_multisource_2020_2023.csv", parse_dates=["date"])
+    daily = pd.read_csv(REPO_ROOT / "Data/lstm_processed/processed/lstm_daily_multisource_2020_2023.csv", parse_dates=["date"])
     baseline = ensemble.copy()
     baseline["input_end"] = pd.to_datetime(baseline["input_end"])
     baseline = baseline.merge(
@@ -97,7 +109,7 @@ def main() -> None:
     persistence = metrics(baseline.y_true, baseline.salinity_input)
     comparison = pd.DataFrame([
         {"model": "LSTM ensemble", **comparable_lstm},
-        {"model": "Persistence t-1", **persistence},
+        {"model": "Persistence t-7", **persistence},
     ])
     comparison.to_csv(OUT / "baseline_comparison.csv", index=False)
     overall.to_csv(OUT / "overall_test_metrics.csv", index=False)
@@ -123,7 +135,7 @@ def main() -> None:
 
 - Dữ liệu: 22 trạm, giai đoạn 2020-2023; target là độ mặn cực đại quan trắc.
 - Chia theo thời gian: train đến 31/12/2021, validation năm 2022, test năm 2023.
-- Bài toán chính: dự báo trước 1 ngày từ cửa sổ 30 ngày; scaler và median imputer chỉ fit trên train.
+- Bài toán chính: dự báo trước 7 ngày từ cửa sổ 30 ngày; scaler và median imputer chỉ fit trên train.
 - Chọn mô hình hoàn toàn theo RMSE validation. Test 2023 không được dùng để chọn siêu tham số.
 - Cấu hình cuối: nhóm biến `salinity`, LSTM 1 tầng, 128 hidden units, dropout 0.15, Huber loss, station embedding 8 chiều.
 
@@ -135,15 +147,15 @@ Theo trạm, RMSE tốt nhất là **{best_station.station_id} ({best_station.rm
 
 ## Ablation và tuning
 
-Thử nghiệm ablation cho thấy nhóm biến chỉ gồm lịch sử mặn, trạng thái quan trắc, tọa độ và mùa vụ cho kết quả validation tốt nhất. Việc thêm ERA5 hoặc Sentinel-2 theo tháng không cải thiện RMSE trong thiết lập dự báo ngày kế tiếp. Kết quả này hợp lý với tính tự tương quan mạnh của độ mặn ngày và độ phân giải thời gian thấp hơn của composite Sentinel-2. Toàn bộ cấu hình và metric được lưu trong `tuning_results_all.csv`.
+Thử nghiệm ablation horizon 7 ngày cho thấy nhóm biến lịch sử mặn, trạng thái quan trắc, tọa độ và mùa vụ vẫn là một baseline LSTM quan trọng. Toàn bộ cấu hình và metric được lưu trong `tuning_results_all.csv`.
 
 ## Baseline bắt buộc phải báo cáo
 
-Trên {int(persistence['n']):,} mẫu có giá trị mặn đầu vào ở ngày liền trước, persistence baseline đạt RMSE **{persistence['rmse']:.3f}**, trong khi LSTM ensemble đạt **{comparable_lstm['rmse']:.3f}** trên đúng tập mẫu đó. Như vậy LSTM hiện chưa vượt baseline persistence cho dự báo 1 ngày. R² cao của LSTM vẫn đúng, nhưng chưa đủ để khẳng định lợi ích dự báo so với quy tắc đơn giản.
+Trên {int(persistence['n']):,} mẫu có giá trị mặn đầu vào ở cuối cửa sổ, persistence baseline t-7 đạt RMSE **{persistence['rmse']:.3f}**, trong khi LSTM ensemble đạt **{comparable_lstm['rmse']:.3f}** trên đúng tập mẫu đó. Với horizon 7 ngày, baseline persistence yếu hơn và mô hình LSTM có thêm không gian để học động lực biến đổi theo tuần.
 
 ## Diễn giải và giới hạn
 
-Kết quả phù hợp để trình bày như một baseline LSTM mạnh và một kết quả ablation trung thực, nhưng chưa nên tuyên bố mô hình cuối có ưu thế vận hành ở horizon 1 ngày. Các hướng tiếp theo nên ưu tiên dự báo 3/7 ngày, residual forecasting so với persistence, và đánh giá trên 2025. ERA5/Sentinel-2 có thể hữu ích hơn ở horizon dài hoặc trong bài toán ước lượng không gian, dù chưa giúp thiết lập LSTM hiện tại.
+Kết quả phù hợp để trình bày như một baseline LSTM horizon 7 ngày và một kết quả ablation trung thực. Các hướng tiếp theo nên ưu tiên residual forecasting so với persistence, đánh giá theo trạm/mùa, và kiểm định ngoài mẫu trên 2025. ERA5/Sentinel-2 có thể hữu ích hơn ở horizon dài hoặc trong bài toán ước lượng không gian.
 
 ## External test 2025
 
