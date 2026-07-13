@@ -1,0 +1,12 @@
+{
+  "data": "/Users/khodo/Downloads/BDML_Paper/experiments/xgboost_spatial/data/weekly_ml_dataset_v2_leftjoin.csv",
+  "output_dir": "/Users/khodo/Downloads/BDML_Paper/experiments/xgboost_spatial/outputs/temporal_20260713_002008",
+  "split": "temporal",
+  "target": "salinity_max_mean",
+  "n_splits": 5,
+  "salinity_cap": 40.0,
+  "include_completeness": false,
+  "include_source_format": false,
+  "include_river": false,
+  "random_state": 42
+}

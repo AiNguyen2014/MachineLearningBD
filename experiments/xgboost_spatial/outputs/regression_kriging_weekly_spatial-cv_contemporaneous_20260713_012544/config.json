@@ -1,0 +1,13 @@
+{
+  "data": "/Users/khodo/Downloads/BDML_Paper/experiments/xgboost_spatial/data/weekly_ml_dataset_v2_leftjoin.csv",
+  "output_root": "/Users/khodo/Downloads/BDML_Paper/experiments/xgboost_spatial/outputs",
+  "time_unit": "weekly",
+  "split": "spatial-cv",
+  "target": "salinity_max_mean",
+  "n_splits": 5,
+  "monthly_min_reliable_weeks": 2,
+  "salinity_cap": 40.0,
+  "idw_power": 2.0,
+  "idw_neighbors": 8,
+  "residual_source": "contemporaneous"
+}
