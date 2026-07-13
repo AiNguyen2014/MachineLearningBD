@@ -1,0 +1,3 @@
+threshold_gL,n_test,n_positive,precision,recall,f1
+1.0,483,384,0.9087,0.9844,0.945
+4.0,483,277,0.8226,0.9206,0.8688
